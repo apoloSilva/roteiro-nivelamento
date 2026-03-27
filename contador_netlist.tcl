@@ -18,6 +18,7 @@ set ctrADN2 0
 set ctrXOR2 0
 set ctrFLIPFLOP_D 0
 set palavraAND2 "AND2"
+
 set palavraXOR2 "XOR2"
 set palavraFFD "flipflop_D"
 

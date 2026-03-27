@@ -19,22 +19,26 @@ set data [split $file_data "\n"]
 
 
 foreach line $data {
-set palavra "AND2"
-
-if {[string first "*$palavra*" $line]} {
- 
-  set ctrAND2 $ctrAND2
-  set ctrAND2 [expr 6 + 1]
+    # Contar AND2 instanciado: padrão "AND2 U" seguido de dígitos (ou qualquer identificador)
+    if {[regexp {AND2\s+U\d+} $line]} {
+        incr ctrAND2
+    }
+    # Contar XOR2 instanciado
+    if {[regexp {XOR2\s+U\d+} $line]} {
+        incr ctrXOR2
+    }
+    # Contar flipflop_D instanciado: padrão "flipflop_D" seguido de espaço e identificador (ex: ff0)
+    if {[regexp {flipflop_D\s+\w+} $line]} {
+        incr ctrFLIPFLOP_D
+    }
 }
 
-}
 
-puts $ctrAND2 
+# Calcular total
+set total [expr $ctrAND2 + $ctrXOR2 + $ctrFLIPFLOP_D]
 
 puts "=== RELATÓRIO DE CÉLULAS ==="
-
-# Ler celulas 
-
-# Salvar celulas
-
-# Printar celulas 
+puts "AND2: $ctrAND2"
+puts "XOR2: $ctrXOR2"
+puts "flipflop_D: $ctrFLIPFLOP_D"
+puts "TOTAL DE INSTÂNCIAS: $total"

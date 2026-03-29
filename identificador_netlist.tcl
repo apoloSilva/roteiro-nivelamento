@@ -13,8 +13,8 @@ set data [split $file_data "\n"]
 
 ## Inicializando dicionário para os módulo e submódulos e outras variáveis
 set modules {}
-set isubmodule 0
-set modulo_atual ""
+set isubmodule 0; #usada para informar se uma linha está  entre 'module' e 'endmodule'
+set modulo_atual ""; #guarda o nome do módulo
 
 ##Identificar modulos
 foreach line $data {
@@ -23,7 +23,7 @@ foreach line $data {
 	set idx [string first "module" $line]
 	if {$idx != -1 && $isubmodule == 0} {
 		set isubmodule 1	
-                set start [expr {$idx +6}];  #define o início logo após "module"
+		set start [expr {$idx +6}];  #define o início logo após "module"
 		set idx_paran [string first "(" $line]; #obtém o índice do primeiro parênteses 
 		set module_name [string trim [string range $line $start [expr {$idx_paran -1}]]]; #corta o nome do módulo
 		set modulo_atual $module_name

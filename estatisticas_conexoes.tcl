@@ -102,7 +102,7 @@ puts "=== TOP 10 NETS POR FANOUT ==="
 
 dict for {key value} $nets {
 	
-	if {$value > 1} {
+	if {$value > 0} {
 		puts "${key}: fanout = ${value}"
 	}
 	
@@ -112,7 +112,7 @@ puts "=== NETS COM FANOUT ZERO (POSSÍVEIS ERROS) ==="
 
 dict for {key value} $nets {
 	
-	if {$value == 1} {
+	if {$value == 0} {
 		puts "${key}"
 	}
 	

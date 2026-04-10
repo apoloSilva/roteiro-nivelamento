@@ -1,5 +1,3 @@
-puts "=== HIERARQUIA DO DESIGN ==="
-
 
 ## Leitura das linhas do arquivo
 set fp [open "contador_netlist.v" r]
@@ -7,6 +5,14 @@ set file_data [read $fp]
 
 #libera o buffer do arquivo contador_netlist.v
 close $fp
+
+
+#cria o arquivo de saída para o relatório
+set out [open "identificador_netlist.txt" w]
+
+# Cabeçalho
+puts 	  "=== HIERARQUIA DO DESIGN ==="
+puts $out "=== HIERARQUIA DO DESIGN ==="
 
 # separar por linhas
 set data [split $file_data "\n"]
@@ -73,7 +79,8 @@ set ctrXOR2 0
 set ctrFLIPFLOP_D 0
 
 dict for {key value} $modules {
-	puts "$key"
+	puts      "$key"
+	puts $out "$key"
 	
 	# contador de "AND2" 
 	set pos 0
@@ -116,15 +123,18 @@ dict for {key value} $modules {
 	#puts "	ctrFLIPFLOP_D = {$ctrFLIPFLOP_D}"
 	
 	if {$ctrADN2 == 0 && $ctrXOR2 == 0 && $ctrFLIPFLOP_D == 0} {
-		puts "   |___ (módulo primitivo - sem submódulos) \n"
+		puts      "   |___ (módulo primitivo - sem submódulos) \n"
+		puts $out "   |___ (módulo primitivo - sem submódulos) \n"
 	} elseif {$ctrADN2 == 0 && $ctrXOR2 == 0} {
-		puts "   |___ (apenas células primitivas) \n"
+		puts      "   |___ (apenas células primitivas) \n"
+		puts $out "   |___ (apenas células primitivas) \n"
 	} elseif {$ctrADN2 != 0 || $ctrXOR2 != 0} {
-		puts "   |___ (células primitivas) \n"
+		puts 	  "   |___ (células primitivas) \n"
+		puts $out "   |___ (células primitivas) \n"
 	} 
 
 	if {$ctrFLIPFLOP_D != 0} {
-		puts "   |___ flipflop_D ($ctrFLIPFLOP_D instâncias) \n"
+		puts $out "   |___ flipflop_D ($ctrFLIPFLOP_D instâncias) \n"
 	}
 
 	set ctrADN2 0
@@ -132,6 +142,9 @@ dict for {key value} $modules {
 	set ctrFLIPFLOP_D 0
 
 }
+
+#fecha o relatório
+close $out
  
 
 
